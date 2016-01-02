@@ -1,6 +1,6 @@
 import peewee as pw
 
-myDB = pw.MySQLDatabase("plog", host="localhost", user="root", passwd="fuck")
+myDB = pw.MySQLDatabase("plog", host="localhost", user="root", passwd="svss1995")
 
 
 class MySQLModel(pw.Model):
