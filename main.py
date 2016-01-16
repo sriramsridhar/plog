@@ -60,20 +60,34 @@ def check_log(cur_user):
         if check != 0:
             print("Logs by "+cur_user)
             result = dbcon.Log.select().where(dbcon.Log.log_user == cur_user).order_by(dbcon.Log.time)
+            i=1
             for name in result:
-                print str(name.time) + " : " + name.log_type +"---"+str(name.rating)+"\n"+name.log_content
+                print str(i)+"-------Time : "+str(name.time) + " Log type: " + name.log_type
+                print "Rating: "+name.rating*u"\u2605"+(5-name.rating)* u"\u2606"
+                print "message: "+name.log_content+"\n"
+                i=i+1
         else:
             print "No log found. . . create a log"
     except:
         print sys.exc_info()[0]
         return False
-
+def search_log(cur_user,term):
+    try:
+        result = dbcon.Log.select().where(dbcon.Log.log_user ==cur_user and dbcon.Log.log_type == term).order_by(dbcon.Log.time)
+        i=1
+        for name in result:
+            print str(i)+"-------Time : "+str(name.time) + " Log type: " + name.log_type
+            print "Rating: "+name.rating*u"\u2605"+(5-name.rating)* u"\u2606"
+            print "message: "+name.log_content+"\n"
+            i=i+1
+    except Exception, e:
+        print e
 
 def action(cur_user):
     i = True
     while i:
         os.system('clear')
-        chck = input("action menu : \n1.create a new log\n2.check logs\n3.logout")
+        chck = input("action menu : \n1.create a new log\n2.check logs\n3.Search logs\n4.logout")
         if chck == 1:
             os.system('clear')
             print "creating new log...."
@@ -82,6 +96,11 @@ def action(cur_user):
             os.system('clear')
             print "checking logs...."
             check_log(cur_user)
+            raw_input()
+        elif chck == 3:
+            os.system('clear')
+            term = raw_input('enter Search type: ')
+            search_log(cur_user,term) 
             raw_input()
         else:
             os.system('clear')
