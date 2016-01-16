@@ -5,6 +5,8 @@ A personalised multi user logging platform in command-line
 
 - timed log
 
+- search logs
+
 - backend:mysql
 
 
