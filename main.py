@@ -2,45 +2,11 @@ import dbcon
 import sys
 import os
 import datetime
+import login
 
 
-def create_user():
-    try:
-        n = raw_input("Enter name : ")
-        p = raw_input("Enter password : ")
-        dbcon.User.create(username=n, password=p)
-        print "User creation success!!!"
-        raw_input()
-    except:
-        return False
 
 
-def check_user(lname, password):
-    try:
-        n = dbcon.User.get(dbcon.User.username == lname)
-        p = dbcon.User.get(dbcon.User.username == lname).password
-        if p == password:
-            print "login success"
-            return True
-        else:
-            print("wrong password")
-            return False
-    except:
-        return False
-
-
-def check_login():
-    lname = raw_input("login id : ")
-    pword = raw_input("password : ")
-    if check_user(lname, pword):
-        print "Welcome " + lname
-        return lname
-    else:
-        chck = raw_input("sorry . .wanna try signup? (y|n)")
-        if chck == 'y':
-            create_user()
-        else:
-            sys.exit(0)
 
 
 def create_log(cur_user):
@@ -102,6 +68,11 @@ def action(cur_user):
             term = raw_input('enter Search type: ')
             search_log(cur_user,term) 
             raw_input()
+        elif chck == 4:
+            os.system('clear')
+            chpass = login.change_password(cur_user)
+            if chpass==True:
+                print "password changed successfully!!!"
         else:
             os.system('clear')
             print "logging out system...bye " + cur_user
@@ -113,13 +84,13 @@ def main(name=None):
         print '''Welcome to the plog - personal blogging assistant'''
         ch = raw_input("Login(y|n) : ")
         if ch == 'y':
-            cur_user = check_login()
+            cur_user = login.check_login()
             action(cur_user)
         else:
-            if create_user() == False:
+            if login.create_user() == False:
                 print "user creation failed"
                 sys.exit(0)
-            cur_user = check_login()
+            cur_user = login.check_login()
             action(cur_user)
     except:
         print sys.exc_info()[0]

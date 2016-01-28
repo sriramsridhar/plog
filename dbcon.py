@@ -13,7 +13,8 @@ class User(MySQLModel):
     username = pw.CharField()
     password = pw.CharField()
     # etc, etc
-
+    class Meta:
+        order_by = ('username',)
 
 class Log(MySQLModel):
     time = pw.DateTimeField()
